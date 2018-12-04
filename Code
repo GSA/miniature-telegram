@@ -2,6 +2,8 @@ var R7NpPFolders = 'FOLDER ID FOR LOCATION TO SEARCH';
 var data; 
 var ts = 'SPREADSHEET ID OF SHEET OF COMPARISON SHEET';
 var PrintArray = [];
+var foldersList = 'SHEETNAME OF FOLDERS LIST''
+
 function FolderList (){
   
   SpreadsheetApp.openById(ts).getRange("A:C").clearContent();
@@ -29,13 +31,17 @@ function FolderList (){
   }
   
   
-  SpreadsheetApp.openById(ts).getSheetByName("SHEET NAME OF FOLDERS LIST").getRange(2,1,PrintArray.length, PrintArray[0].length).setValues(PrintArray);
+  SpreadsheetApp.openById(ts).getSheetByName(foldersList).getRange(2,1,PrintArray.length, PrintArray[0].length).setValues(PrintArray);
   
   debugger;
   
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------//
+var ts = 'SPREADSHEET ID OF COMPARISON SHEET';
+var sn = 'SHEET NAME OF NEEDED FOLDERS LIST';
+
+
 function FolderCreate(){
   
   var ProjectsList = SpreadsheetApp.openById("SPREADSHEET ID OF COMPARISON SHEET").getSheetByName("SHEET NAME OF NEEDED FOLDERS LIST").getRange("A:H").getValues();
@@ -74,7 +80,7 @@ function FolderCreate(){
 function ProjectInfo(){
 
 var sss = SpreadsheetApp.openById("SPREADSHEET ID OF LIST OF NEEDED FOLDERS");
-var ss = sss.getSheetByName("ALL PROJECTS");
+var ss = sss.getSheetByName("SHEET NAME OF THE ABOVE LIST - NOT THE SAME SHEET ID AS COMPARISON SHEET");
 var values = ss.getDataRange().getDisplayValues();
 var columns = [1, 2, 95, 11]
 
