@@ -37,6 +37,7 @@ function FolderList (){
   
 }
 
+
 //--------------------------------------------------------------------------------------------------------------------------------------//
 var ts = 'SPREADSHEET ID OF COMPARISON SHEET';
 var sn = 'SHEET NAME OF NEEDED FOLDERS LIST';
