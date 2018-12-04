@@ -1,0 +1,94 @@
+var R7NpPFolders = 'FOLDER ID FOR LOCATION TO SEARCH';
+var data; 
+var ts = 'SPREADSHEET ID OF SHEET OF COMPARISON SHEET';
+var PrintArray = [];
+function FolderList (){
+  
+  SpreadsheetApp.openById(ts).getRange("A:C").clearContent();
+  
+  var Folders = DriveApp.getFolderById(R7NpPFolders).getFolders();
+  Logger.log(Folders);
+  SpreadsheetApp.openById(ts).appendRow(["Folder Name", "ePM Number", "ePM Number Check"])
+  while (Folders.hasNext()){
+    
+    var folder = Folders.next();
+    
+    if(!folder.getName().indexOf("ePM")){
+      
+      data = [
+        folder.getName(),
+        folder.getName().substring(4,9)
+      ];
+      
+      debugger;
+      
+      PrintArray.push(data);
+      
+      
+    }
+  }
+  
+  
+  SpreadsheetApp.openById(ts).getSheetByName("SHEET NAME OF FOLDERS LIST").getRange(2,1,PrintArray.length, PrintArray[0].length).setValues(PrintArray);
+  
+  debugger;
+  
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------//
+function FolderCreate(){
+  
+  var ProjectsList = SpreadsheetApp.openById("SPREADSHEET ID OF COMPARISON SHEET").getSheetByName("SHEET NAME OF NEEDED FOLDERS LIST").getRange("A:H").getValues();
+  var NoFolderList = ProjectsList[0].indexOf("Folder");
+  
+  var FoldersNeeded = ProjectsList.filter (function (row) {
+    return (row [NoFolderList]=="NO FOLDER")
+  })
+  
+  for (i=0; i<FoldersNeeded.length;++i){
+    var row = FoldersNeeded[i];
+    
+    var ePMnum = row[1];
+    var ProjName = row[2];
+    var NotifyList = row[7];
+    
+    var newFolderName = "ePM "+ePMnum+" "+ProjName;
+    
+    var teamDriveID = "TEAMD DRIVE ID";
+    
+    DriveApp.getFolderById(teamDriveID).createFolder(newFolderName);
+    MailApp.sendEmail({
+    to:NotifyList,
+    subject:"Folder Created for "+newFolderName,
+    body:"Subject folder has been created.",
+             noReply:true
+      });
+    
+  }
+  
+  
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------//
+
+function ProjectInfo(){
+
+var sss = SpreadsheetApp.openById("SPREADSHEET ID OF LIST OF NEEDED FOLDERS");
+var ss = sss.getSheetByName("ALL PROJECTS");
+var values = ss.getDataRange().getDisplayValues();
+var columns = [1, 2, 95, 11]
+
+var output =[];
+            for (var i = 0, length=values.length; i < length; i++) {
+                output[i] = [];
+                for (var j = 0, width = columns.length; j < width; j++){
+                  output[i][j] = values[i][columns[j]];
+                  }
+               }
+              
+var tss = SpreadsheetApp.openById("SPREADSHEET ID OF COMPARISON SHEET");
+var ts = tss.getSheetByName("SHEET NAME OF NEEDED FOLDERS LIST");
+ts.getRange("B:E").clearContent();
+var tr = ts.getRange(1,2,length,width).setValues(output);
+
+}
