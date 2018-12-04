@@ -92,3 +92,24 @@ ts.getRange("B:E").clearContent();
 var tr = ts.getRange(1,2,length,width).setValues(output);
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------------//
+
+function UpdateCORfiles (){
+
+//UpdateDirectory();
+
+//Utilities.sleep(250);
+
+FolderList ();
+
+Utilities.sleep(250);
+
+ProjectInfo();
+
+Utilities.sleep(500);
+
+FolderCreate();
+
+}
+
